@@ -10,6 +10,8 @@
       rel="stylesheet"
       href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     />
+
+   
     
 </head>
 <body>
@@ -17,18 +19,59 @@
         <div class="container">
             <h1 class="display-6 text-center py-2">Weather Dashboard</h1>
         </div>
-
-
-
-
-
-
-
-
-
-
     </div>
 
 
+    <div class="row w-100">
+        <div class="col-3">
+            <div class="bg-white py-2" id="leftColumn">
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <form class="form-inline my-2 my-lg-0 justify-content-center">
+                            <label class="col-12 font-weight-bold text-center mb-1 h4">Search For a City</label>
+                            <input class="form-control h-100 bg-white" type="search" placeholder="Location" id="locationSearch">
+                            <button class="btn btn-primary" type="submit" id="searchLocBtn">Search</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="list-group" id="searchHistory">
+                            <button class="list-group-item list-group-item-action py-4" type="button" id="clearHistoryBtn">Clear History</button> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-9 border border-dark">
+            <div class="row">
+                <div class="col-12 p-3 pt-2" id="currentLocationWeather">
+                    <div class="row">
+                        <div class="col-12 py-3 font-weight-bold h1" id="location"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 py-3">Temp: <span id="temperature"></span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 py-3">Humidity: <span id="humidity"></span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 py-3">UV Index: <span class="text-dark" id="uv"></span></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 py-3">Wind: <span id="windSpeed"></span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+   
+
 </body>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+<script src="assets/js/script.js"></script>
 </html>
