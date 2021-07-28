@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=S, initial-scale=1.0">
+    <meta name="viewport" content="initial-scale=1.0">
     <title>Weather Dashboard</title>
     
     <link
@@ -32,7 +32,7 @@
                         <form class="form-inline my-2 my-lg-0 justify-content-center">
                             <label class="col-12 font-weight-bold text-center mb-1 h4">Search For a City</label>
                             <input class="form-control h-100 bg-white" type="search" placeholder="Location" id="locationSearch">
-                            <button class="btn btn-primary" type="submit" id="searchLocBtn">Search</button>
+                            <button class="btn btn-primary" id="searchLocBtn">Search</button>
                         </form>
                     </div>
                 </div>
@@ -47,8 +47,8 @@
         </div>
 
 
-        <div class="col-9 border border-dark">
-            <div class="row">
+        <div class="col-9">
+            <div class="row border border-dark">
                 <div class="col-12 p-3 pt-2" id="currentLocationWeather">
                     <div class="row">
                         <div class="col-12 py-3 font-weight-bold h1" id="location"></div>
@@ -67,22 +67,26 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row my-3 pb-4 bg-white" id="forecast">
-            <div class="container mx-auto">
-                <div class="row">
-                    <div class="col-12 py-3 mt-5 font-weight-bold text-center">5 Day Forecast</div>
+            <!-- 5 day forecast-->
+            <div class="row my-3 pb-4 bg-white" id="forecast">
+                <div class="container mx-auto">
+                    <div class="row">
+                        <div class="col-12 py-3 mt-5 font-weight-bold text-center">5 Day Forecast</div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-lg-2 col-md-6 my-2" id="dayOne"></div>
+                    <div class="col-lg-2 col-md-6 my-2" id="dayTwo"></div>
+                    <div class="col-lg-2 col-md-6 my-2" id="dayThree"></div>
+                    <div class="col-lg-2 col-md-6 my-2" id="dayFour"></div>
+                    <div class="col-lg-2 col-md-6 my-2" id="dayFive"></div>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="col-lg-2 col-md-6 my-2" id="dayOne"></div>
-                <div class="col-lg-2 col-md-6 my-2" id="dayTwo"></div>
-                <div class="col-lg-2 col-md-6 my-2" id="dayThree"></div>
-                <div class="col-lg-2 col-md-6 my-2" id="dayFour"></div>
-                <div class="col-lg-2 col-md-6 my-2" id="dayFive"></div>
-            </div>
+
+
         </div>
+
             
 
 
@@ -95,5 +99,5 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="assets/js/script.js"></script>
+<script src="./assets/js/script.js"></script>
 </html>
