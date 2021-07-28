@@ -12,17 +12,19 @@ clearBtn.addEventListener("click", function() {
 var searchBtn = document.getElementById("searchLocBtn");
 searchBtn.addEventListener("click", function() {
     var locationInput = document.getElementById("locationSearch");
-    var cityElement = locationInput;
+    var cityElement = {
+        cityName: locationInput.value
+    };
     saveCity(cityElement); 
-    console.log("poop");
+    loadHistory();
 })
 
 
 
-
-
 //function to display current weather and also 5 day forecast below
-
+window.addEventListener("load", function() {
+    loadHistory();
+})
 
 
 
@@ -32,27 +34,63 @@ searchBtn.addEventListener("click", function() {
 
 //saving in local storage
 var saveCity = function(cityElement) {
-    console.log("poop");
 
     if (localStorage.getItem("cityData") == null) {
-        var newArray = []
-        newArray.push(cityElement)
-        localStorage.setItem("cityData", JSON.stringify(newArrary));
+        var newArray = [];
+        newArray.push(cityElement);
+        localStorage.setItem("cityData", JSON.stringify(newArray));
     } else {
         //array already exists in storage
         var currentCityData = JSON.parse(localStorage.getItem("cityData"))
         var cityExists = false;
 
         for( i = 0; i < currentCityData.length; i++) {
-            if (currentCityData[i] == cityElement) {
+            if (currentCityData[i].cityName == cityElement.cityName) {
                 cityExists = true;
             }
         }
-        if (cityName) {
+        if (!cityExists) {
             currentCityData.push(cityElement);
             localStorage.setItem("cityData", JSON.stringify(currentCityData));
         }
     }
 };
+
+//get data from local storage
+var getCityData = function(){
+
+    var result
+
+    if (localStorage.getItem("cityData") == null) {
+        var newArray = [];
+        localStorage.setItem("cityData", JSON.stringify(newArray));
+        result = newArray;
+    } else {
+        //array already exists in storage
+         result = JSON.parse(localStorage.getItem("cityData"))
+
+    }
+
+    return result;
+};
+
+
+
+var loadHistory = function() {
+    var myCityData = getCityData();
+    var historyRows = document.getElementById("historyRows")
+    for( i = 0; i < myCityData.length; i++) {
+        console.log(myCityData[i]);
+       var nr = document.createElement('div');
+       nr.classList.add("row");
+       var col = document.createElement('div');
+       col.classList.add("col");
+       var myText = document.createTextNode(myCityData[i].cityName);
+       col.appendChild(myText)
+       nr.appendChild(col);
+       historyRows.appendChild(nr);
+    }
+}
+
 
 
