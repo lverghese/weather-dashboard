@@ -1,5 +1,66 @@
 const APIKey = "40360ebbfafb9db4e0cd8e687316fac5";
 
+locationInput = document.getElementById("locationSearch")
+
+//function to display current weather and also 5 day forecast below
+window.addEventListener("load", function() {
+    loadHistory();
+})
+
+
+
+
+
+//function to retrieve data from api and send to current weather in html
+
+var getCityName = function() {
+    event.preventDefault();
+
+    //get a value from the input element
+    var location = locationInput.value.trim();
+
+    if (location) {
+
+    }
+}
+
+var getCurrentWeather = function(city) {
+    //format the weather api url
+    var apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIKey;
+
+    //making the request to the url
+    fetch(apiURL)
+    .then(function(response) {
+
+        if (response.ok) {
+            console.log(response);
+            response.json().then(function(data) {
+                console.log(data);
+            });
+        } else {
+            alert('Error: ' + response.statusText);
+        }
+    })
+    .catch(function(error) {
+        alert('Unable to get weather');
+    });
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -33,12 +94,6 @@ searchBtn.addEventListener("click", function() {
     loadHistory();
 })
 
-
-
-//function to display current weather and also 5 day forecast below
-window.addEventListener("load", function() {
-    loadHistory();
-})
 
 
 
