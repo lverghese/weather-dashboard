@@ -1,11 +1,25 @@
 const APIKey = "40360ebbfafb9db4e0cd8e687316fac5";
 
 
+
+
+//removing historyrows on html
+var removeChildren = function(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+
+    
+}
+
 //clearing local storage on button click
 var clearBtn = document.getElementById("clearHistoryBtn");
 clearBtn.addEventListener("click", function() {
     localStorage.clear();
+    removeChildren(historyRows);
 })
+
+
 
 
 //saving into local storage on search button
@@ -25,9 +39,6 @@ searchBtn.addEventListener("click", function() {
 window.addEventListener("load", function() {
     loadHistory();
 })
-
-
-
 
 
 
@@ -91,6 +102,7 @@ var loadHistory = function() {
        historyRows.appendChild(nr);
     }
 }
+
 
 
 
