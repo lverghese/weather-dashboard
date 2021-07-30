@@ -1,58 +1,66 @@
 const APIKey = "40360ebbfafb9db4e0cd8e687316fac5";
 
-locationInput = document.getElementById("locationSearch");
-temperature = document.getElementById("temperature");
-uvIndex = document.getElementById("uv");
-windSpeed = document.getElementById("windSpeed");
-humidity = document.getElementById("humidity");
+
+var cityNameInput = document.getElementById("location")
+
+var locationInput = document.getElementById("locationSearch");
+var temperature = document.getElementById("temperature");
+var uvIndex = document.getElementById("uv");
+var windSpeed = document.getElementById("windSpeed");
+var humidity = document.getElementById("humidity");
+var forecastCard = document.getElementById("forecastContainer")
+
+
+
+var getCurrentDate = function(){
+    var currentDay = moment().format("dddd, MMMM Do YYYY");
+    return currentDay;
+
+};
+
 
 //function to display current weather and also 5 day forecast below
 window.addEventListener("load", function() {
     loadHistory();
 })
 
-
-
-
-
 //function to retrieve data from api and send to current weather in html
 
 var getCityName = function() {
-    
 
     //get a value from the input element
     var location = locationInput.value.trim();
 
     if (location) {
-        getCurrentWeather(location)
+
+        getCurrentWeather(location);
         locationInput.value = '';
     } else {
         alert("Please enter a city");
     }
-};
+}
+
 
 var getCurrentWeather = function(city) {
     //format the weather api url
-    var apiURL = "https://openweathermap.org/api/one-call-api?q=" + city + "&appid=" + APIKey;
-    var latitude;
-    var longitude; 
+    var apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIKey;
 
-    
+    cityNameInput.innerHTML = city + ' ' + getCurrentDate();
 
     console.log(apiURL);
     //making the request to the url
     fetch(apiURL)
     .then(function(response) {
-
         if (response.ok) {
-            console.log(response);
+            
             response.json().then(function(data) {
-               
-                console.log(data.main);
-                latitude = data.coord.lat
-                longitude = data.coord.lon
-                 queryURL = "https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=hourly&appid=" + APIKey;
+
+                temperature.innerHTML = data.main.temp + " F";
+                humidity.innerHTML = data.main.humidity;
+                windSpeed.innerHTML = data.wind.speed + " MPH";
+                var uvData = getUv(data.coord.lat, data.coord.lon);
                 
+    
             });
         } else {
             alert('Error: ' + response.statusText);
@@ -62,27 +70,101 @@ var getCurrentWeather = function(city) {
         alert('Unable to get weather');
     });
 
+    getForecast(city);
+};
+
+var getUv = function(latitude, longitude) {
+
+    var queryURL2 = "https://api.openweathermap.org/data/2.5/uvi/forecast?&units=imperial&appid=" + APIKey +
+    "&lat=" +
+    latitude +
+    "&lon=" +
+    longitude;
+    
+    fetch(queryURL2)
+    .then(function(response) {
+        if (response.ok) {
+            
+            response.json().then(function(data) {
+                resultUv = data[0].value;
+                uvIndex.innerHTML = resultUv;
+
+                if (resultUv <= 4) {
+                    uvIndex.classList.add("alert")
+                    uvIndex.classList.add("alert-success")
+                } else if (resultUv > 4 && resultUv <= 9) {
+                    uvIndex.classList.add("alert")
+                    uvIndex.classList.add("alert-warning")
+                } else if (resultUv > 9) {
+                    uvIndex.classList.add("alert")
+                    uvIndex.classList.add("alert-danger")
+                };
+            })
+        }
+    })
+
+    
     
 };
 
+var getForecast = function(city) {
+    var queryURL3 = "https://api.openweathermap.org/data/2.5/forecast?&units=imperial&appid=" + APIKey + '&q=' + city;
 
-
-
-var getOneCall = function(queryURL) {
-    fetch(queryURL)
+    fetch(queryURL3)
     .then(function(response) {
         if (response.ok) {
-            console.log(response);
-            response.json().then(function(data) {
-                console.log(data);
 
+            response.json().then(function(data) {
+                console.log(data)
+                var dayCount = 1
+                for (var i = 6; i < data.list.length; i += 8) {
+                    var col = document.createElement('div')
+                    col.classList.add("col-2")
+                    col.innerHTML = 'Hello'
+                     var nc = document.createElement('div');
+                     nc.classList.add("col-2");
+                     var cardForecast = document.createElement("div")
+                     cardForecast.classList.add("card");
+                     var cardBody = document.createElement("div")
+                     cardBody.classList.add("card-body")
+                     var forecastDate = document.createElement("span")
+                     forecastDate.classList.add("card-title")
+                     forecastDate.innerHTML = moment().add(dayCount, "days").format("M/D/YYYY")
+                     var icon = document.createElement("img")
+                     icon.src = "https://openweathermap.org/img/w/" + data.list[i].weather[0].icon + ".png"
+                     var tempForecast = document.createElement("p")
+                     tempForecast.classList.add("card-text")
+                     tempForecast.innerHTML = data.list[i].main.temp + " F"
+                     var humForecast = document.createElement("p")
+                     humForecast.classList.add('card-text')
+                     humForecast.innerHTML = "Humidity" + data.list[i].main.humidity
+                     var windForecast = document.createElement("p")
+                     windForecast.classList.add('card-title')
+                     windForecast.innerHTML = data.list[i].wind.speed + " MPH";
+
+                     
+                     nc.appendChild(cardForecast);
+                     cardForecast.appendChild(cardBody);
+                     cardBody.appendChild(forecastDate);
+                     cardBody.appendChild(icon);
+                     cardBody.appendChild(tempForecast);
+                     cardBody.appendChild(humForecast);
+                     cardBody.appendChild(windForecast);
+                    
+
+                    forecastCard.appendChild(nc);
+                    
+                    dayCount++;
+                }
             })
         } else {
-            alert('Error: ' + queryURL);
+            alert('Error: ' + response.statusText);
         }
     })
-}
-
+    .catch(function(error) {
+        alert(error);
+    });
+    }
 
 
 
@@ -188,6 +270,7 @@ var loadHistory = function() {
        var myText = document.createTextNode(myCityData[i].cityName);
        col.appendChild(myText)
        nr.appendChild(col);
+       myText.addEventListener("click", getCurrentWeather(myCityData[i].cityName));
        historyRows.appendChild(nr);
     }
 }
