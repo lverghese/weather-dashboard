@@ -13,21 +13,24 @@ window.addEventListener("load", function() {
 
 //function to retrieve data from api and send to current weather in html
 
-var getCityName = function() {
+var getCityName = function(event) {
     event.preventDefault();
 
     //get a value from the input element
     var location = locationInput.value.trim();
 
     if (location) {
-
+        getCurrentWeather(location) = '';
+        locationInput.value = '';
+    } else {
+        alert("Please enter a city");
     }
-}
+};
 
 var getCurrentWeather = function(city) {
     //format the weather api url
     var apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIKey;
-
+    console.log(apiURL);
     //making the request to the url
     fetch(apiURL)
     .then(function(response) {
