@@ -1,6 +1,10 @@
 const APIKey = "40360ebbfafb9db4e0cd8e687316fac5";
 
-locationInput = document.getElementById("locationSearch")
+locationInput = document.getElementById("locationSearch");
+temperature = document.getElementById("temperature");
+uvIndex = document.getElementById("uv");
+windSpeed = document.getElementById("windSpeed");
+humidity = document.getElementById("humidity");
 
 //function to display current weather and also 5 day forecast below
 window.addEventListener("load", function() {
@@ -13,14 +17,14 @@ window.addEventListener("load", function() {
 
 //function to retrieve data from api and send to current weather in html
 
-var getCityName = function(event) {
-    event.preventDefault();
+var getCityName = function() {
+    
 
     //get a value from the input element
     var location = locationInput.value.trim();
 
     if (location) {
-        getCurrentWeather(location) = '';
+        getCurrentWeather(location)
         locationInput.value = '';
     } else {
         alert("Please enter a city");
@@ -29,7 +33,12 @@ var getCityName = function(event) {
 
 var getCurrentWeather = function(city) {
     //format the weather api url
-    var apiURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=" + APIKey;
+    var apiURL = "https://openweathermap.org/api/one-call-api?q=" + city + "&appid=" + APIKey;
+    var latitude;
+    var longitude; 
+
+    
+
     console.log(apiURL);
     //making the request to the url
     fetch(apiURL)
@@ -38,7 +47,12 @@ var getCurrentWeather = function(city) {
         if (response.ok) {
             console.log(response);
             response.json().then(function(data) {
-                console.log(data);
+               
+                console.log(data.main);
+                latitude = data.coord.lat
+                longitude = data.coord.lon
+                 queryURL = "https://cors-anywhere.herokuapp.com/https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=hourly&appid=" + APIKey;
+                
             });
         } else {
             alert('Error: ' + response.statusText);
@@ -47,12 +61,27 @@ var getCurrentWeather = function(city) {
     .catch(function(error) {
         alert('Unable to get weather');
     });
+
+    
 };
 
 
 
 
+var getOneCall = function(queryURL) {
+    fetch(queryURL)
+    .then(function(response) {
+        if (response.ok) {
+            console.log(response);
+            response.json().then(function(data) {
+                console.log(data);
 
+            })
+        } else {
+            alert('Error: ' + queryURL);
+        }
+    })
+}
 
 
 
@@ -94,8 +123,10 @@ searchBtn.addEventListener("click", function() {
         cityName: locationInput.value
     };
     saveCity(cityElement); 
+    getCityName();
     loadHistory();
-})
+
+});
 
 
 
