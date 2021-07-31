@@ -21,7 +21,7 @@ var getCurrentDate = function(){
 
 //function to display current weather and also 5 day forecast below
 window.addEventListener("load", function() {
-    loadHistory();
+    loadCache();
 })
 
 //function to retrieve data from api and send to current weather in html
@@ -69,7 +69,7 @@ var getCurrentWeather = function(city) {
     .catch(function(error) {
         alert('Unable to get weather');
     });
-
+    removeChildren(forecastCard);
     getForecast(city);
 };
 
@@ -206,8 +206,7 @@ searchBtn.addEventListener("click", function() {
     };
     saveCity(cityElement); 
     getCityName();
-    loadHistory();
-
+    addHistory(cityElement.cityName);
 });
 
 
@@ -258,22 +257,43 @@ var getCityData = function(){
 
 
 
-var loadHistory = function() {
+var loadCache = function() {
     var myCityData = getCityData();
-    var historyRows = document.getElementById("historyRows")
     for( i = 0; i < myCityData.length; i++) {
-        console.log(myCityData[i]);
-       var nr = document.createElement('div');
-       nr.classList.add("row");
-       var col = document.createElement('div');
-       col.classList.add("col");
-       var myText = document.createTextNode(myCityData[i].cityName);
-       col.appendChild(myText)
-       nr.appendChild(col);
-       historyRows.appendChild(nr);
+        displayHistory(myCityData[i].cityName);
     }
 }
 
+var addHistory = function(cityName) {
+    displayHistory(cityName);
+}
 
+var displayHistory = function (cityName) {
+    console.log(cityName);
+    var nr = document.createElement('div');
+    nr.classList.add("row");
+    var col = document.createElement('div');
+    col.classList.add("col");
+    var historyBtn = document.createElement("button");
+    historyBtn.classList.add("btn")
+    historyBtn.classList.add("btn-primary")
+    historyBtn.classList.add("btn-block")
+    historyBtn.classList.add("btn-center")
+    historyBtn.id = "btn" + cityName;
+    historyBtn.setAttribute('content', 'test content');
+     historyBtn.setAttribute('class', 'btn-primary');
+    historyBtn.innerHTML = cityName;
+    console.log(historyBtn);
+   
+    historyBtn.addEventListener("click", function(){
+        console.log("hello");
+        getCurrentWeather(cityName);
+    })
+ 
+    nr.appendChild(col);
+    col.appendChild(historyBtn);
+    historyRows.appendChild(nr);
+
+}
 
 
