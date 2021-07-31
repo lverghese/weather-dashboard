@@ -270,7 +270,6 @@ var loadHistory = function() {
        var myText = document.createTextNode(myCityData[i].cityName);
        col.appendChild(myText)
        nr.appendChild(col);
-       myText.addEventListener("click", getCurrentWeather(myCityData[i].cityName));
        historyRows.appendChild(nr);
     }
 }
