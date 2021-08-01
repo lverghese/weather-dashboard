@@ -15,8 +15,7 @@ This weather dashboard's purpose is to pull information from the weather API and
 
 
 ## Contribution
-* HTML and CSS initialized previously.
-* Javascripted initialized by yours truly.
+* HTML, CSS and Javascript initialized by yours truly.
 
 
 ## Preview
