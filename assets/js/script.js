@@ -58,7 +58,7 @@ var getCurrentWeather = function(city) {
                 humidity.innerHTML = data.main.humidity;
                 windSpeed.innerHTML = data.wind.speed + " MPH";
                 var uvData = getUv(data.coord.lat, data.coord.lon);
-                
+            
     
             });
         } else {
