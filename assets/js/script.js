@@ -2,7 +2,6 @@ const APIKey = "40360ebbfafb9db4e0cd8e687316fac5";
 
 
 var cityNameInput = document.getElementById("location")
-
 var locationInput = document.getElementById("locationSearch");
 var temperature = document.getElementById("temperature");
 var uvIndex = document.getElementById("uv");
