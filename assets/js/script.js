@@ -102,8 +102,6 @@ var getUv = function(latitude, longitude) {
         }
     })
 
-    
-    
 };
 
 var getForecast = function(city) {
